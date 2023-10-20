@@ -13,7 +13,9 @@ function stackDigits(items: [number], onSelectedItem: any) {
                 key={i}
                 onClick={(e) => {
                     e.preventDefault();
-                    onSelectedItem(items[i]);
+                    if(onSelectedItem) {
+                        onSelectedItem(items[i]);
+                    }
                 }}
             ><span style={{ fontSize: 20 }}>{items[i]}</span>
         </button>
@@ -31,29 +33,23 @@ function stackDigits(items: [number], onSelectedItem: any) {
 async function fetchToken(selectedDigits: any) {
     const body = {digits: selectedDigits};
     console.log(body);
-    fetch("http://localhost:8081/generator", {
+    return fetch("http://localhost:8081/generator", {
         method: "POST",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json;charset=UTF-8'
         },
         body: JSON.stringify(body),
-    }).then(resp => {
-        console.log("resp:" + resp);
-        return resp.body;
     });
 }
 
 async function validateToken(token: string) {
-    fetch("http://localhost:8082/validator/token=" + token, {
+    return fetch("http://localhost:8082/validator/token=" + token, {
         method: "GET",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json;charset=UTF-8'
         },
-    }).then(resp => {
-        console.log("resp:" + resp);
-        return resp.body;
     });
 }
 
@@ -99,9 +95,10 @@ export default function Home() {
                 onClick={async (e) => {
                     e.preventDefault();
                     fetchToken(selectedDigits)
-                        .then(resp => {
-                            console.log("resp: ", resp);
-                            setToken("");
+                        .then(async (resp) => {
+                            const body = await resp.json();
+                            console.log("resp: ", body);
+                            setToken(body.token);
                         });
                 }}>
             Generate token
@@ -114,9 +111,10 @@ export default function Home() {
                 onClick={(e) => {
                     e.preventDefault();
                     validateToken(token)
-                        .then(resp => {
-                            console.log("resp: ", resp);
-                            setIsTokenValid(resp === "true");
+                        .then(async (resp) => {
+                            const body = await resp.json();
+                            console.log("resp: ", body);
+                            setIsTokenValid(body.valid === "true");
                         });
                 }}>
             Validate token
