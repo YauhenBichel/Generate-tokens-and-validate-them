@@ -9,11 +9,11 @@ script should bring up all services and make FE available on localhost:8080
  - Request POST:
    - localhost:8081/generator
    - {
-     "digits":[1,2,3,4]
+     "digits":[1,2,3,4,0,7]
      }
  - Response:
    - {
-     "token": "3123-2111-4123-1341"
+     "token": "4302-2174-7324-0427"
      }
    - 
 ### RESTful service validator
