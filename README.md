@@ -15,6 +15,15 @@ script should bring up all services and make FE available on localhost:8080
    - {
      "token": "3123-2111-4123-1341"
      }
+   - 
+### RESTful service validator
+- port 8082
+- Request GET:
+    - localhost:8082/validator/"3123-2111-4123-1341"
+- Response:
+    - {
+      "valid": false
+      }
 
 ## Requirements
 React web application and RESTful service for tokens generation and validation them using Luhn algorithm
