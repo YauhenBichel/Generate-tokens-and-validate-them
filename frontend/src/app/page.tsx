@@ -43,9 +43,6 @@ export default function Home() {
     useEffect(() => {
         validateToken(token);
     }, [token]);
-    useEffect(() => {
-        updateDigits(selectedDigit);
-    }, [selectedDigit]);
 
     const fetchToken = async (selectedDigits: any) => {
         const body = {digits: selectedDigits};
@@ -68,12 +65,12 @@ export default function Home() {
             },
         });
     }
-    const updateDigits = (newDigit: number) => {
-        digits.splice(digits.indexOf(newDigit), 1);
-        const arr = digits;
-        setDigits(arr);
-        selectedDigits.push(selectedDigit);
+    const updateDigits = () => {
+        const ind = digits.indexOf(selectedDigit);
+        console.log("index is ", ind);
+        selectedDigits.push(digits.splice(ind, 1));
         setSelectedDigits(selectedDigits);
+        setDigits(digits);
     }
 
     return (
@@ -92,7 +89,7 @@ export default function Home() {
                 {stackDigits(digits,
                     (newDigit: number) => {
                         setSelectedDigit(newDigit);
-                        updateDigits(newDigit);
+                        updateDigits();
                     }
                 )}
             </div>
