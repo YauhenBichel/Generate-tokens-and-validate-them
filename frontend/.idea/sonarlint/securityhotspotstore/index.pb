@@ -2,12 +2,8 @@
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
-9
-	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 B
 src/app/layout.tsx,c/f/cfb47de6ae0cae626eed46461300112ef521d977
-<
-package.json,7/0/7030d0b2f71b999ff89a343de08c414af32fc93a
 C
 src/app/globals.css,d/a/da1d6f21d01d0f36b5501dffcf7fd160ffcb290d
 G

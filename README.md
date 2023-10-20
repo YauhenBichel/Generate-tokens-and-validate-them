@@ -4,6 +4,10 @@
 script should bring up all services and make FE available on localhost:8080
 >start.sh
 
+### React application 
+>npm run build
+>npm run start
+
 ### RESTful service generator
  - port 8081
  - Request POST:

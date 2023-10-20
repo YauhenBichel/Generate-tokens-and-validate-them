@@ -3,7 +3,7 @@
 import styles from './page.module.css'
 import {useEffect, useState} from "react";
 
-function stackDigits(items: [number], onSelectedItem: any) {
+function stackDigits(items: number[], onSelectedItem: any) {
   let stack = [];
 
   for(let i = 0; i < items.length; i++) {
@@ -32,8 +32,8 @@ function stackDigits(items: [number], onSelectedItem: any) {
 
 export default function Home() {
     const [digits, setDigits] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    const [selectedDigit, setSelectedDigit] = useState(0);
-    const [selectedDigits, setSelectedDigits] = useState([]);
+    const [selectedDigit, setSelectedDigit] = useState(-1);
+    const [selectedDigits, setSelectedDigits] = useState(new Array());
     const [token, setToken] = useState("")
     const [isTokenValid, setIsTokenValid] = useState(false)
 
@@ -66,11 +66,19 @@ export default function Home() {
         });
     }
     const updateDigits = () => {
+        if(selectedDigit == -1) {
+            return;
+        }
+
         const ind = digits.indexOf(selectedDigit);
         console.log("index is ", ind);
-        selectedDigits.push(digits.splice(ind, 1));
-        setSelectedDigits(selectedDigits);
+        digits.splice(ind, 1)
         setDigits(digits);
+
+        let arr = selectedDigits;
+        arr.push(selectedDigit);
+        setSelectedDigits(arr);
+
     }
 
     return (
