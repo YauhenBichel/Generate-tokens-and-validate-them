@@ -31,7 +31,7 @@ public class GeneratedTokenService {
 
         Random rand = new Random();
         int min = 1;
-        int max = 4;
+        int max = digitsMap.keySet().size();
         final int amountOfGroupsInToken = 4;
         final int amountOfDigitsInGroup = 4;
         final int indexOfLastGroup = 3;
