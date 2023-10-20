@@ -45,7 +45,7 @@ async function fetchToken(selectedDigits: any) {
 }
 
 async function validateToken(token: string) {
-    fetch("http://localhost:8081/validator/" + token, {
+    fetch("http://localhost:8082/validator/token=" + token, {
         method: "GET",
         headers: {
             'Accept': 'application/json',
