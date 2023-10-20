@@ -2,10 +2,12 @@
 
 ## How to start
 script should bring up all services and make FE available on localhost:8080
+### please run start.sh in root folder
 >start.sh
 
 ### React application 
 >npm run build
+
 >npm run start
 
 ### RESTful service generator
