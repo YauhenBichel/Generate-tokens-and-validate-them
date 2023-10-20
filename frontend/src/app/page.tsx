@@ -10,6 +10,7 @@ function stackDigits(items: [number], onSelectedItem: any) {
     const item = (
         <button className="btn btn-outline-dark"
                 style={{padding: 15}}
+                key={i}
                 onClick={(e) => {
                     e.preventDefault();
                     onSelectedItem(items[i]);
@@ -27,9 +28,40 @@ function stackDigits(items: [number], onSelectedItem: any) {
   );
 }
 
+async function fetchToken(selectedDigits: any) {
+    const body = {digits: selectedDigits};
+    console.log(body);
+    fetch("http://localhost:8081/generator", {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+        body: JSON.stringify(body),
+    }).then(resp => {
+        console.log("resp:" + resp);
+        return resp.body;
+    });
+}
+
+async function validateToken(token: string) {
+    fetch("http://localhost:8081/validator/" + token, {
+        method: "GET",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+    }).then(resp => {
+        console.log("resp:" + resp);
+        return resp.body;
+    });
+}
+
 export default function Home() {
-    const [digits, setDigits] = useState([0,1,2,3,4,5,6,7,8,9])
-    const [selectedDigits, setSelectedDigits] = useState([])
+    const [digits, setDigits] = useState([0,1,2,3,4,5,6,7,8,9]);
+    const [selectedDigits, setSelectedDigits] = useState([]);
+    const [token, setToken] = useState("")
+    const [isTokenValid, setIsTokenValid] = useState(false)
 
   return (
     <main className={styles.main}>
@@ -47,7 +79,8 @@ export default function Home() {
         { stackDigits(digits,
             (selectedDigit: number) => {
                     digits.splice(digits.indexOf(selectedDigit), 1);
-                    setDigits(digits);
+                    const arr = digits;
+                    setDigits(arr);
                     selectedDigits.push(selectedDigit);
                     setSelectedDigits(selectedDigits);
                 }
@@ -63,22 +96,32 @@ export default function Home() {
         <p>Generate token</p>
         <button className="btn btn-sm btn-outline-dark"
                 style={{width: 'fit-content', padding: '10px 20px'}}
-                onClick={(e) => {
+                onClick={async (e) => {
                     e.preventDefault();
-
+                    fetchToken(selectedDigits)
+                        .then(resp => {
+                            console.log("resp: ", resp);
+                            setToken("");
+                        });
                 }}>
             Generate token
         </button>
+        {token}
         <hr/>
         <p>Validate token</p>
         <button className="btn btn-sm btn-outline-dark"
                 style={{width: 'fit-content', padding: '10px 20px'}}
                 onClick={(e) => {
                     e.preventDefault();
-
+                    validateToken(token)
+                        .then(resp => {
+                            console.log("resp: ", resp);
+                            setIsTokenValid(resp === "true");
+                        });
                 }}>
             Validate token
         </button>
+        {isTokenValid}
     </main>
   )
 }
